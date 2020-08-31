@@ -2,4 +2,4 @@
 
 Provisioning of AWS infrastructure needed to for MLOps
 
-![Architecture Diagram](arch.png)
+![Architecture Diagram](architecture.png)

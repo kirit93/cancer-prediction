@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "bucket" {
+resource "aws_s3_bucket" "melanoma_bucket" {
     bucket  = var.bucket
     acl     = "private"
 
@@ -17,7 +17,7 @@ resource "aws_s3_bucket" "bucket" {
 }
 
 # resource "aws_s3_bucket_policy" "b" {
-#     bucket = aws_s3_bucket.bucket.id
+#     bucket = aws_s3_bucket.melanoma_bucket.id
 
 #     policy = <<POLICY
 # {
@@ -45,43 +45,43 @@ resource "aws_kms_key" "s3_key" {
 }
 
 resource "aws_s3_bucket_object" "notebook" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket = aws_s3_bucket.melanoma_bucket.id
   key = "sources/sagemaker/notebook/trainer.ipynb"
   source = "${path.module}/../../sources/notebook/trainer.ipynb"
 }
 
 resource "aws_s3_bucket_object" "script" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket = aws_s3_bucket.melanoma_bucket.id
   key = "sources/sagemaker/scripts/training.py"
   source = "${path.module}/../../sources/scripts/training.py"
 }
 
 resource "aws_s3_bucket_object" "opencv_layer" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket = aws_s3_bucket.melanoma_bucket.id
   key = "sources/lambda/functions/zipfiles/layers/opencv-python-layer-py36.zip"
   source = "${path.module}/../../sources/lambda/functions/zipfiles/layers/opencv-python-layer-py36.zip"
 }
 
 resource "aws_s3_bucket_object" "pydicom_layer" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket = aws_s3_bucket.melanoma_bucket.id
   key = "sources/lambda/functions/zipfiles/layers/pydicom-layer-py37.zip"
   source = "${path.module}/../../sources/lambda/functions/zipfiles/layers/pydicom-layer-py37.zip"
 }
 
 resource "aws_s3_bucket_object" "numpy_layer" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket = aws_s3_bucket.melanoma_bucket.id
   key = "sources/lambda/functions/zipfiles/layers/numpy-layer-py37.zip"
   source = "${path.module}/../../sources/lambda/functions/zipfiles/layers/numpy-layer-py37.zip"
 }
 
 resource "aws_s3_bucket_object" "opencv_lambda" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket = aws_s3_bucket.melanoma_bucket.id
   key = "sources/lambda/functions/zipfiles/${var.lambda2_name}_function.zip"
   source = "${path.module}/../../sources/lambda/functions/zipfiles/${var.lambda2_name}_function.zip"
 }
 
 resource "aws_s3_bucket_object" "s3_lambda" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket = aws_s3_bucket.melanoma_bucket.id
   key = "sources/lambda/functions/zipfiles/${var.lambda1_name}_function.zip"
   source = "${path.module}/../../sources/lambda/functions/zipfiles/${var.lambda1_name}_function.zip"
 }

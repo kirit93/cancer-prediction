@@ -14,7 +14,7 @@ terraform {
 }
 
 module "s3" {
-    source = "./s3"
+    source = "../s3"
 
     bucket = var.ucsf_bucket
     lambda1_name = var.lambda1
@@ -22,7 +22,7 @@ module "s3" {
 }
 
 module "lambda" {
-    source = "./lambda"
+    source = "../lambda"
 
     bucket = var.ucsf_bucket
     bucketid = module.s3.s3_bucket_id
@@ -33,7 +33,7 @@ module "lambda" {
 }
 
 module "sagemaker" {
-    source = "./sagemaker"
+    source = "../sagemaker"
 
     namespace = var.namespace
     bucket = var.ucsf_bucket

@@ -50,11 +50,11 @@ data "aws_iam_policy_document" "sagemaker_policy_doc" {
     statement {
         effect = "Allow"
         actions = [
-        "s3:GetObject"
+            "s3:*"
         ]
         resources = [
-            "arn:aws:s3:::${var.bucket_name}",
-            "arn:aws:s3:::${var.bucket_name}/*"
+            "arn:aws:s3:::${var.bucket}",
+            "arn:aws:s3:::${var.bucket}/*"
         ]
     }
     statement {
@@ -80,14 +80,14 @@ resource "aws_sagemaker_notebook_instance" "sagemaker_notebook" {
     name = "${var.namespace}-notebook-instance"
     role_arn = aws_iam_role.sagemaker_role.arn
     instance_type = "ml.m5.12xlarge"
-    lifecycle_config_name = aws_sagemaker_notebook_instance_lifecycle_configuration.default.name
+    # lifecycle_config_name = aws_sagemaker_notebook_instance_lifecycle_configuration.default.name
 }
 
 data "template_file" "init" {
   template = "${file("${path.module}/../../sources/sagemaker/scripts/sagemaker_init.sh")}"
 
   vars = {
-    bucket_name = var.bucket_name
+    bucket_name = var.bucket
   }
 }
 

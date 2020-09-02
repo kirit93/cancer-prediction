@@ -1,3 +1,5 @@
+# Deployed using Terraform
+
 import boto3
 import json
 import cv2

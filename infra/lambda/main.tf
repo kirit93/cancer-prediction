@@ -98,7 +98,7 @@ resource "aws_lambda_layer_version" "numpy_layer" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-    name = "${var.namespace}-lambda-role"
+    name = var.lambda_role
     path = "/"
     assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
@@ -162,6 +162,15 @@ data "aws_iam_policy_document" "lambda_policy_doc" {
         resources = [
             "arn:aws:s3:::${var.bucket}",
             "arn:aws:s3:::${var.bucket}/*"
+        ]
+    }
+    statement {
+        effect = "Allow"
+        actions = [
+            "kms:*"
+        ]
+        resources = [
+            "*"
         ]
     }
 }

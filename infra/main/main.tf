@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 terraform {
-    required_version = "0.12.24"
+    required_version = "0.13.1"
     backend "s3" {
         bucket = "kt-tfstate"
         key    = "terraform/terraform.tfstate"
@@ -19,6 +19,7 @@ module "s3" {
     bucket = var.ucsf_bucket
     lambda1_name = var.lambda1
     lambda2_name = var.lambda2
+    lambda_role = var.lambda_role
 }
 
 module "lambda" {
@@ -30,6 +31,8 @@ module "lambda" {
     lambda1_name = var.lambda1
     lambda2_name = var.lambda2
     namespace = var.namespace
+    lambda_role = var.lambda_role
+    depends_on = [module.s3]
 }
 
 module "sagemaker" {

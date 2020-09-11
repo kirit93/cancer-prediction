@@ -22,22 +22,32 @@ module "s3" {
     lambda_role = var.lambda_role
 }
 
-module "lambda" {
-    source = "../lambda"
 
-    bucket = var.ucsf_bucket
-    bucketid = module.s3.s3_bucket_id
-    bucketarn = module.s3.s3_bucket_arn
-    lambda1_name = var.lambda1
-    lambda2_name = var.lambda2
+# module "lambda" {
+#     source = "../lambda"
+
+#     bucket = var.ucsf_bucket
+#     bucketid = module.s3.s3_bucket_id
+#     bucketarn = module.s3.s3_bucket_arn
+#     lambda1_name = var.lambda1
+#     lambda2_name = var.lambda2
+#     namespace = var.namespace
+#     lambda_role = var.lambda_role
+#     depends_on = [module.s3]
+# }
+
+# module "sagemaker" {
+#     source = "../sagemaker"
+
+#     namespace = var.namespace
+#     bucket = var.ucsf_bucket
+# }
+
+module "ec2" {
+    source = "../ec2"
+
     namespace = var.namespace
-    lambda_role = var.lambda_role
-    depends_on = [module.s3]
-}
-
-module "sagemaker" {
-    source = "../sagemaker"
-
-    namespace = var.namespace
-    bucket = var.ucsf_bucket
+    instance_type = var.instance_type
+    subnet_id = var.subnet_id
+    vpc = var.vpc_id
 }

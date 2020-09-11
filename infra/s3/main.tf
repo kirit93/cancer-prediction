@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "melanoma_bucket" {
-    bucket  = var.bucket
+    bucket  = "${var.namespace}-${var.bucket}"
     acl     = "private"
 
     server_side_encryption_configuration {
@@ -35,7 +35,10 @@ resource "aws_s3_bucket_policy" "b" {
             "Action": "s3:*",
             "Effect": "Allow",
             "Principal": { 
-                "AWS": "arn:aws:iam::287222052256:role/${var.lambda_role}" 
+                "AWS": [
+                  "arn:aws:iam::287222052256:role/${var.lambda_role}",
+                  "arn:aws:iam::287222052256:role/kt-melanoma-ec2-policy" 
+                ]
             },
             "Resource": [
                 "arn:aws:s3:::${var.bucket}/*",

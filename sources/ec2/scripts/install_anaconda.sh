@@ -59,7 +59,6 @@ echo "conf.NotebookApp.port = 8888" >> jupyter_notebook_config.py_
 
 # conda install -y -c conda-forge awscli
 # # Setup the credentials for the AWS CLI (find better way to pass secret key)
-# aws configure set aws_access_key_id AKIAUFX6EWWQO4VCJQQZ
-# aws configure set aws_secret_access_key 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
+
 
 # ++++++++++++ END  +++++++++++++

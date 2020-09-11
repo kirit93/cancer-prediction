@@ -57,8 +57,4 @@ echo "conf = get_config()" >> jupyter_notebook_config.py_
 echo "conf.NotebookApp.ip = '0.0.0.0'" >> jupyter_notebook_config.py_
 echo "conf.NotebookApp.port = 8888" >> jupyter_notebook_config.py_
 
-# conda install -y -c conda-forge awscli
-# # Setup the credentials for the AWS CLI (find better way to pass secret key)
-
-
 # ++++++++++++ END  +++++++++++++

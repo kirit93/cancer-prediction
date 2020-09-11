@@ -7,28 +7,27 @@ resource "aws_instance" "melanoma_instance" {
     iam_instance_profile    = aws_iam_instance_profile.s3_instance_profile.name
 
     key_name                = "kirit-key" # aws_key_pair.deployer.key_name
-    vpc_security_group_ids  = ["sg-26d9434f"]
+    vpc_security_group_ids  = ["sg-04f26745d0114d941"]
 
-    user_data = "${file("../../sources/ec2/scripts/install_anaconda.sh")}"
-
+    user_data = "${file("${path.module}/../../sources/ec2/scripts/install_anaconda.sh")}"
     tags = {
         Name = "${var.namespace}-compute-instance"
     }
 }
 
-resource "aws_instance" "preprocessing_instance" {
-    ami                     = data.aws_ami.latest-ubuntu.id
-    instance_type           = var.instance_type
-    subnet_id               = "subnet-f4e2659d"
-    iam_instance_profile    = aws_iam_instance_profile.s3_instance_profile.name
+# resource "aws_instance" "preprocessing_instance" {
+#     ami                     = data.aws_ami.latest-ubuntu.id
+#     instance_type           = var.instance_type
+#     subnet_id               = "subnet-f4e2659d"
+#     iam_instance_profile    = aws_iam_instance_profile.s3_instance_profile.name
 
-    key_name                = "kirit-key" # aws_key_pair.deployer.key_name
-    vpc_security_group_ids  = ["sg-26d9434f"]
+#     key_name                = "kirit-key" # aws_key_pair.deployer.key_name
+#     vpc_security_group_ids  = ["sg-26d9434f"]
 
-    tags = {
-        Name = "${var.namespace}-preprocessing-instance"
-    }
-}
+#     tags = {
+#         Name = "${var.namespace}-preprocessing-instance"
+#     }
+# }
 
 resource "aws_ebs_volume" "melanoma_vol" {
     availability_zone = "us-east-2a"
@@ -39,14 +38,14 @@ resource "aws_ebs_volume" "melanoma_vol" {
     }
 }
 
-resource "aws_ebs_volume" "preprocessing_vol" {
-    availability_zone = "us-east-2a"
-    size = 50
-    encrypted = true
-    tags = {
-        Name = "${var.namespace}-volume-2"
-    }
-}
+# resource "aws_ebs_volume" "preprocessing_vol" {
+#     availability_zone = "us-east-2a"
+#     size = 50
+#     encrypted = true
+#     tags = {
+#         Name = "${var.namespace}-volume-2"
+#     }
+# }
 
 resource "aws_volume_attachment" "melanoma_attachment" {
     device_name = "/dev/sdf"
@@ -54,11 +53,11 @@ resource "aws_volume_attachment" "melanoma_attachment" {
     instance_id = aws_instance.melanoma_instance.id
 }
 
-resource "aws_volume_attachment" "preprocessing_attachment" {
-    device_name = "/dev/sdf"
-    volume_id = aws_ebs_volume.preprocessing_vol.id
-    instance_id = aws_instance.preprocessing_instance.id
-}
+# resource "aws_volume_attachment" "preprocessing_attachment" {
+#     device_name = "/dev/sdf"
+#     volume_id = aws_ebs_volume.preprocessing_vol.id
+#     instance_id = aws_instance.preprocessing_instance.id
+# }
 
 # resource "aws_key_pair" "deployer" {
 #   key_name   = "deployer-key"

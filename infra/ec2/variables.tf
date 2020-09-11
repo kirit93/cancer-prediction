@@ -11,7 +11,4 @@ variable capacity {
   default = 3
 }
 
-# variable arg1 {}
-# variable arg2 {}
-
 

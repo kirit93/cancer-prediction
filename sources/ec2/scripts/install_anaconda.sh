@@ -5,15 +5,23 @@
 #   $1 :: (string) AWS Access Key ID
 #   $2 :: (string) AWS Secret Key
 #
-# Also make sure to give the script permission to run!:
-#    chmod 755 /home/ubuntu/install.sh
-#
 # -----------------------------------------------------------------------
 
 
 # ++++++++++++++++++++ START ANACONDA INSTALL +++++++++++++++++++++
 cd /home/ubuntu
-su ubuntu
+
+# Mount EBS volume to /data
+sudo mkfs -t ext4 /dev/xvdf
+sudo mkdir /data
+sudo mount /dev/xvdf /data
+cd /data
+df -h .
+
+# Ensure volume is mounted whenever instance starts up
+sudo cp /etc/fstab /etc/fstab.bak
+echo "/dev/xvdf /data ext4 defaults,nofail 0 0" > /etc/fstab
+sudo mount -a
 
 # Download the Linux Anaconda Distribution
 wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh -O /tmp/anaconda3.sh
@@ -25,23 +33,33 @@ rm /tmp/anaconda3.sh
 ### Run the conda init script to setup the shell
 echo ". /home/ubuntu/anaconda3/etc/profile.d/conda.sh" >> /home/ubuntu/.bashrc
 . /home/ubuntu/anaconda3/etc/profile.d/conda.sh
+
 source /home/ubuntu/.bashrc
+
+sudo apt-get update
+
 
 # Create a base Python3 environment separate from the base env
 conda create -y --name ucsf_env python=3.6
 
 # +++++++++++++++++++++ END ANACONDA INSTALL ++++++++++++++++++++++
 
-
 # ++++++++++++++ SETUP ENV +++++++++++++++
 
 # Install necessary Python packages
-# Note that 'source' is deprecated, so now we should be using 'conda' to activate/deactivate envs
 conda activate ucsf_env
-conda install -y -c conda-forge awscli
+pip install jupyter
 
-# Setup the credentials for the AWS CLI
-aws configure set aws_access_key_id $1
-aws configure set aws_secret_access_key $2
+# Setup Jupyter
+jupyter notebook --generate-config
+cd .jupyter
+echo "conf = get_config()" >> jupyter_notebook_config.py_
+echo "conf.NotebookApp.ip = '0.0.0.0'" >> jupyter_notebook_config.py_
+echo "conf.NotebookApp.port = 8888" >> jupyter_notebook_config.py_
+
+# conda install -y -c conda-forge awscli
+# # Setup the credentials for the AWS CLI (find better way to pass secret key)
+# aws configure set aws_access_key_id AKIAUFX6EWWQO4VCJQQZ
+# aws configure set aws_secret_access_key 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
 
 # ++++++++++++ END  +++++++++++++

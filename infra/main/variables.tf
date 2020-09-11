@@ -1,10 +1,9 @@
 variable ucsf_bucket {}
 variable lambda1 {}
+variable lambda1_path {}
 variable lambda2 {}
+variable lambda2_path {}
 variable namespace {}
-variable lambda_role {}
-
-# variable ami {}
 variable instance_type {}
 variable subnet_id {}
 variable vpc_id {}

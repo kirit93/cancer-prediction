@@ -42,7 +42,7 @@ module "numpy_layer_upload" {
     source = "../utils/s3_data_upload"
     bucketid = module.s3.s3_bucket_id
     key = "sources/lambda/functions/zipfiles/layers/numpy-layer-py37.zip"
-    path = "/Users/kirit.thadaka/Slalom/Projects/Internal/Terraform_Learning/kirit-terraform/sources/lambda/functions/zipfiles/layers/numpy-layer-py37.zip"
+    path = "../../sources/lambda/functions/zipfiles/layers/numpy-layer-py37.zip"
     depends_on = [module.s3]
 }
 
